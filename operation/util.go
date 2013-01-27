@@ -10,9 +10,9 @@ func ToOperationInfo(res map[string]interface{}) *OperationInfo {
         DateStart: util.ToTime(res["date_start"]),
         DateUpdated: util.ToTime(res["date_updated"]),
         Eta: util.ToString(res["eta"]),
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
         LastError: util.ToString(res["last_error"]),
-        SessionId: int(util.ToInt64(res["session_id"])),
+        SessionId: util.ToInt64(res["session_id"]),
         Source: util.ToString(res["source"]),
         Step: util.ToString(res["step"]),
         Type: util.ToString(res["type"]),
@@ -28,6 +28,6 @@ func ToOperationDetails(res map[string]interface{}) *OperationDetails {
         ProductAction: util.ToString(res["product_action"]),
         ProductName: util.ToString(res["product_name"]),
         ProductType: util.ToString(res["product_type"]),
-        Quantity: int(util.ToInt64(res["quantity"])),
+        Quantity: util.ToInt64(res["quantity"]),
     }
 }

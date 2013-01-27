@@ -12,7 +12,7 @@ func ToDomainInfoBase(res map[string]interface{}) *DomainInfoBase {
         DateRegistryEnd: util.ToTime(res["date_registry_end"]),
         DateUpdated: util.ToTime(res["date_updated"]),
         Fqdn: util.ToString(res["fqdn"]),
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
         Status: util.ToStringSlice(util.ToInterfaceSlice(res["status"])),
         Tld: util.ToString(res["tld"]),
     }
@@ -28,7 +28,7 @@ func ToDomainInfoExtra(res map[string]interface{}) *DomainInfoExtra {
         DateRestoreEnd: util.ToTime(res["date_restore_end"]),
         Nameservers: util.ToStringSlice(util.ToInterfaceSlice(res["nameservers"])),
         Services: util.ToStringSlice(util.ToInterfaceSlice(res["services"])),
-        ZoneId: int(util.ToInt64(res["zone_id"])),
+        ZoneId: util.ToInt64(res["zone_id"]),
         Autorenew: toAutorenewInfo(util.ToXmlrpcStruct(res["autorenew"])),
         Contacts: toContactInfo(util.ToXmlrpcStruct(res["contacts"])),
     }
@@ -45,9 +45,9 @@ func toAutorenewInfo(res map[string]interface{}) *AutorenewInfo {
     return &AutorenewInfo{
         Active: util.ToBool(res["active"]),
         Contact: util.ToString(res["contact"]),
-        Id: int(util.ToInt64(res["id"])),
-        ProductId: int(util.ToInt64(res["product_id"])),
-        ProductTypeId: int(util.ToInt64(res["product_type_id"])),
+        Id: util.ToInt64(res["id"]),
+        ProductId: util.ToInt64(res["product_id"]),
+        ProductTypeId: util.ToInt64(res["product_type_id"]),
     }
 }
 
@@ -64,6 +64,6 @@ func toContactInfo(res map[string]interface{}) *ContactInfo {
 func toContactDetails(res map[string]interface{}) *ContactDetails {
     return &ContactDetails{
         Handle: util.ToString(res["handle"]),
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
     }
 }

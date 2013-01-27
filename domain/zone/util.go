@@ -7,16 +7,16 @@ import (
 func ToZoneInfoBase(res map[string]interface{}) *ZoneInfoBase {
     return &ZoneInfoBase{
         DateUpdated: util.ToTime(res["date_updated"]),
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
         Name: util.ToString(res["name"]),
         Public: util.ToBool(res["public"]),
-        Version: int(util.ToInt64(res["version"])),
+        Version: util.ToInt64(res["version"]),
     }
 }
 
 func ToZoneInfoExtra(res map[string]interface{}) *ZoneInfoExtra {
     return &ZoneInfoExtra{
-        Domains: int(util.ToInt64(res["domains"])),
+        Domains: util.ToInt64(res["domains"]),
         Owner: util.ToString(res["owner"]),
         Versions: util.ToIntSlice(util.ToInterfaceSlice(res["versions"])),
     }

@@ -15,7 +15,7 @@ func toBalanceInformation(res map[string]interface{}) *BalanceInformation {
 
 func toPrepaidInformation(res map[string]interface{}) *PrepaidInformation {
     return &PrepaidInformation{
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
         Amount: util.ToString(res["amount"]),
         Currency: util.ToString(res["currency"]),
         DateCreated: util.ToTime(res["date_created"]),
@@ -33,7 +33,7 @@ func toContactInformation(res map[string]interface{}) *ContactInformation {
         City: util.ToString(res["city"]),
         Country: util.ToString(res["country"]),
         Phone: util.ToString(res["phone"]),
-        ContactType: int(util.ToInt64(res["type"])),
+        ContactType: util.ToInt64(res["type"]),
         Handle: util.ToString(res["handle"]),
     }
 }

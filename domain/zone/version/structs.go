@@ -5,6 +5,6 @@ import (
 )
 
 type VersionInfo struct {
-    Id int
+    Id int64
     DateCreated time.Time
 }

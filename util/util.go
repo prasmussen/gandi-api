@@ -69,11 +69,11 @@ func ToBool(i interface{}) bool {
     return b
 }
 
-func ToIntSlice(is []interface{}) []int {
-    numbers := make([]int, len(is), len(is))
+func ToIntSlice(is []interface{}) []int64 {
+    numbers := make([]int64, len(is), len(is))
 
     for i, _ := range is {
-        numbers[i] = int(is[i].(int64))
+        numbers[i] = ToInt64(is[i])
     }
     return numbers
 }

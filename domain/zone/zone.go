@@ -15,17 +15,17 @@ func New(c *client.Client) *Zone {
 }
 
 // Counts accessible zones
-func (self *Zone) Count() (int, error) {
+func (self *Zone) Count() (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
     if err := self.Rpc.Call("domain.zone.count", params, &result); err != nil {
         return -1, err
     }
-    return int(result), nil
+    return result, nil
 }
 
 // Get zone information
-func (self *Zone) Info(id int) (*ZoneInfo, error) {
+func (self *Zone) Info(id int64) (*ZoneInfo, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
     if err := self.Rpc.Call("domain.zone.info", params, &res); err != nil {
@@ -62,7 +62,7 @@ func (self *Zone) Create(name string) (*ZoneInfo, error) {
 }
 
 // Delete a zone
-func (self *Zone) Delete(id int) (bool, error) {
+func (self *Zone) Delete(id int64) (bool, error) {
     var res bool
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
     if err := self.Rpc.Call("domain.zone.delete", params, &res); err != nil {
@@ -72,7 +72,7 @@ func (self *Zone) Delete(id int) (bool, error) {
 }
 
 // Set the current zone of a domain
-func (self *Zone) Set(domainName string, id int) (*domain.DomainInfo, error) {
+func (self *Zone) Set(domainName string, id int64) (*domain.DomainInfo, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, domainName, id}}
     if err := self.Rpc.Call("domain.zone.set", params, &res); err != nil {

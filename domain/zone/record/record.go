@@ -14,17 +14,17 @@ func New(c *client.Client) *Record {
 }
 
 // Count number of records for a given zone/version
-func (self *Record) Count(zoneId, version int) (int, error) {
+func (self *Record) Count(zoneId, version int64) (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Rpc.Call("domain.zone.record.count", params, &result); err != nil {
         return -1, err
     }
-    return int(result), nil
+    return result, nil
 }
 
 // List records of a version of a DNS zone
-func (self *Record) List(zoneId, version int) ([]*RecordInfo, error) {
+func (self *Record) List(zoneId, version int64) ([]*RecordInfo, error) {
     var res []interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Rpc.Call("domain.zone.record.list", params, &res); err != nil {
@@ -57,7 +57,7 @@ func (self *Record) Add(args RecordAdd) (*RecordInfo, error) {
 }
 
 // Remove a record from a zone/version
-func (self *Record) Delete(zoneId, version, recordId int) (bool, error) {
+func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
     var res int64
     deleteArgs := xmlrpc.Struct{"id": recordId}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version, deleteArgs}}
@@ -68,7 +68,7 @@ func (self *Record) Delete(zoneId, version, recordId int) (bool, error) {
 }
 
 //// Set the current zone of a domain
-//func (self *Record) Set(domainName string, id int) (*domain.DomainInfo, error) {
+//func (self *Record) Set(domainName string, id int64) (*domain.DomainInfo, error) {
 //    var res map[string]interface{}
 //    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, domainName, id}}
 //    if err := self.Rpc.Call("domain.zone.set", params, &res); err != nil {

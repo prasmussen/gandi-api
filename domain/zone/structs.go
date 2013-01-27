@@ -6,16 +6,16 @@ import (
 
 type ZoneInfoBase struct {
     DateUpdated time.Time
-    Id int
+    Id int64
     Name string
     Public bool
-    Version int
+    Version int64
 }
 
 type ZoneInfoExtra struct {
-    Domains int
+    Domains int64
     Owner string
-    Versions []int
+    Versions []int64
 }
 
 type ZoneInfo struct {

@@ -7,7 +7,7 @@ import (
 
 func ToVersionInfo(res map[string]interface{}) *VersionInfo {
     return &VersionInfo{
-        Id: int(util.ToInt64(res["id"])),
+        Id: util.ToInt64(res["id"]),
         DateCreated: util.ToTime(res["date_created"]),
     }
 }

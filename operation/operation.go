@@ -14,17 +14,17 @@ func New(c *client.Client) *Operation {
 }
 
 // Count operations created by this contact
-func (self *Operation) Count() (int, error) {
+func (self *Operation) Count() (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
     if err := self.Rpc.Call("operation.count", params, &result); err != nil {
         return -1, err
     }
-    return int(result), nil
+    return result, nil
 }
 
 // Get operation information
-func (self *Operation) Info(id int) (*OperationInfo, error) {
+func (self *Operation) Info(id int64) (*OperationInfo, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
     if err := self.Rpc.Call("operation.info", params, &res); err != nil {
@@ -34,7 +34,7 @@ func (self *Operation) Info(id int) (*OperationInfo, error) {
 }
 
 // Cancel an operation
-func (self *Operation) Cancel(id int) (bool, error) {
+func (self *Operation) Cancel(id int64) (bool, error) {
     var res bool
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
     if err := self.Rpc.Call("operation.cancel", params, &res); err != nil {

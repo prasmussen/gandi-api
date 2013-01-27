@@ -5,7 +5,7 @@ import (
 )
 
 type PrepaidInformation struct {
-    Id int
+    Id int64
     Amount string
     Currency string
     DateCreated time.Time
@@ -28,7 +28,7 @@ type ContactInformation struct {
     City string
     Country string
     Phone string
-    ContactType int
+    ContactType int64
     Handle string
 }
 

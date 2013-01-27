@@ -14,17 +14,17 @@ func New(c *client.Client) *Version {
 }
 
 // Count this zone versions
-func (self *Version) Count(zoneId int) (int, error) {
+func (self *Version) Count(zoneId int64) (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId}}
     if err := self.Rpc.Call("domain.zone.version.count", params, &result); err != nil {
         return -1, err
     }
-    return int(result), nil
+    return result, nil
 }
 
 // List this zone versions, with their creation date
-func (self *Version) List(zoneId int) ([]*VersionInfo, error) {
+func (self *Version) List(zoneId int64) ([]*VersionInfo, error) {
     var res []interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId}}
     if err := self.Rpc.Call("domain.zone.version.list", params, &res); err != nil {
@@ -40,18 +40,18 @@ func (self *Version) List(zoneId int) ([]*VersionInfo, error) {
 }
 
 // Create a new version from another version. This will duplicate the version’s records
-func (self *Version) New(zoneId, version int) (int, error) {
+func (self *Version) New(zoneId, version int64) (int64, error) {
     var res int64
 
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Rpc.Call("domain.zone.version.new", params, &res); err != nil {
         return -1, err
     }
-    return int(res), nil
+    return res, nil
 }
 
 // Delete a specific version
-func (self *Version) Delete(zoneId, version int) (bool, error) {
+func (self *Version) Delete(zoneId, version int64) (bool, error) {
     var res bool
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Rpc.Call("domain.zone.version.delete", params, &res); err != nil {
@@ -61,7 +61,7 @@ func (self *Version) Delete(zoneId, version int) (bool, error) {
 }
 
 // Set the active version of a zone
-func (self *Version) Set(zoneId, version int) (bool, error) {
+func (self *Version) Set(zoneId, version int64) (bool, error) {
     var res bool
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Rpc.Call("domain.zone.version.set", params, &res); err != nil {

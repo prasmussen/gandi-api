@@ -51,17 +51,17 @@ func (self *Domain) List() ([]*DomainInfoBase, error) {
 }
 
 // Count domains associated to the contact represented by apikey
-func (self *Domain) Count() (int, error) {
+func (self *Domain) Count() (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
     if err := self.Rpc.Call("domain.count", params, &result); err != nil {
         return -1, err
     }
-    return int(result), nil
+    return result, nil
 }
 
 // Create a domain
-func (self *Domain) Create(name, contactHandle string, years int) (*operation.OperationInfo, error) {
+func (self *Domain) Create(name, contactHandle string, years int64) (*operation.OperationInfo, error) {
     var res map[string]interface{}
     createArgs := xmlrpc.Struct{
         "admin": contactHandle,

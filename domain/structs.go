@@ -11,7 +11,7 @@ type DomainInfoBase struct {
     DateRegistryEnd time.Time
     DateUpdated time.Time
     Fqdn string
-    Id int
+    Id int64
     Status []string
     Tld string
 }
@@ -25,7 +25,7 @@ type DomainInfoExtra struct {
     DateRestoreEnd time.Time
     Nameservers []string
     Services []string
-    ZoneId int
+    ZoneId int64
     Autorenew *AutorenewInfo
     Contacts *ContactInfo
 }
@@ -38,9 +38,9 @@ type DomainInfo struct {
 type AutorenewInfo struct {
     Active bool
     Contact string
-    Id int
-    ProductId int
-    ProductTypeId int
+    Id int64
+    ProductId int64
+    ProductTypeId int64
 }
 
 type ContactInfo struct {
@@ -53,5 +53,5 @@ type ContactInfo struct {
 
 type ContactDetails struct {
     Handle string
-    Id int
+    Id int64
 }

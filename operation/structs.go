@@ -9,9 +9,9 @@ type OperationInfo struct {
     DateStart time.Time
     DateUpdated time.Time
     Eta string
-    Id int
+    Id int64
     LastError string
-    SessionId int
+    SessionId int64
     Source string
     Step string
     Type string
@@ -25,5 +25,5 @@ type OperationDetails struct {
     ProductAction string
     ProductName string
     ProductType string
-    Quantity int
+    Quantity int64
 }
