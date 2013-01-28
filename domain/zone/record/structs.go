@@ -10,7 +10,7 @@ type RecordInfo struct {
 }
 
 type RecordAdd struct {
-    Id int64 `goptions:"-i, --id, obligatory, description='Zone id'"`
+    Zone int64 `goptions:"-z, --zone, obligatory, description='Zone id'"`
     Version int64 `goptions:"-v, --version, obligatory, description='Zone version'"`
     Name string `goptions:"-n, --name, obligatory, description='Record name. Relative name, may contain leading wildcard. @ for empty name'"`
     Type string `goptions:"-t, --type, obligatory, description='Record type'"`

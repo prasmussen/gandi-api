@@ -49,7 +49,7 @@ func (self *Record) Add(args RecordAdd) (*RecordInfo, error) {
         "ttl": args.Ttl,
     }
 
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, args.Id, args.Version, createArgs}}
+    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, args.Zone, args.Version, createArgs}}
     if err := self.Rpc.Call("domain.zone.record.add", params, &res); err != nil {
         return nil, err
     }
