@@ -17,7 +17,7 @@ func New(c *client.Client) *Contact {
 func (self *Contact) Balance() (*BalanceInformation, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
-    if err := self.Rpc.Call("contact.balance", params, &res); err != nil {
+    if err := self.Call("contact.balance", params, &res); err != nil {
         return nil, err
     }
     return toBalanceInformation(res), nil
@@ -33,7 +33,7 @@ func (self *Contact) Info(handle string) (*ContactInformation, error) {
     } else {
         params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, handle}}
     }
-    if err := self.Rpc.Call("contact.info", params, &res); err != nil {
+    if err := self.Call("contact.info", params, &res); err != nil {
         return nil, err
     }
     return toContactInformation(res), nil
@@ -56,7 +56,7 @@ func (self *Contact) Create(opts ContactCreate) (*ContactInformation, error) {
     }
 
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, createArgs}}
-    if err := self.Rpc.Call("contact.create", params, &res); err != nil {
+    if err := self.Call("contact.create", params, &res); err != nil {
         return nil, err
     }
     return toContactInformation(res), nil
@@ -72,7 +72,7 @@ func (self *Contact) Delete(handle string) (bool, error) {
     } else {
         params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, handle}}
     }
-    if err := self.Rpc.Call("contact.delete", params, &res); err != nil {
+    if err := self.Call("contact.delete", params, &res); err != nil {
         return false, err
     }
     return res, nil

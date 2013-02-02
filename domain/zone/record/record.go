@@ -17,7 +17,7 @@ func New(c *client.Client) *Record {
 func (self *Record) Count(zoneId, version int64) (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
-    if err := self.Rpc.Call("domain.zone.record.count", params, &result); err != nil {
+    if err := self.Call("domain.zone.record.count", params, &result); err != nil {
         return -1, err
     }
     return result, nil
@@ -27,7 +27,7 @@ func (self *Record) Count(zoneId, version int64) (int64, error) {
 func (self *Record) List(zoneId, version int64) ([]*RecordInfo, error) {
     var res []interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
-    if err := self.Rpc.Call("domain.zone.record.list", params, &res); err != nil {
+    if err := self.Call("domain.zone.record.list", params, &res); err != nil {
         return nil, err
     }
 
@@ -50,7 +50,7 @@ func (self *Record) Add(args RecordAdd) (*RecordInfo, error) {
     }
 
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, args.Zone, args.Version, createArgs}}
-    if err := self.Rpc.Call("domain.zone.record.add", params, &res); err != nil {
+    if err := self.Call("domain.zone.record.add", params, &res); err != nil {
         return nil, err
     }
     return ToRecordInfo(res), nil
@@ -61,7 +61,7 @@ func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
     var res int64
     deleteArgs := xmlrpc.Struct{"id": recordId}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version, deleteArgs}}
-    if err := self.Rpc.Call("domain.zone.record.delete", params, &res); err != nil {
+    if err := self.Call("domain.zone.record.delete", params, &res); err != nil {
         return false, err
     }
     return (res == 1), nil
@@ -71,7 +71,7 @@ func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
 //func (self *Record) Set(domainName string, id int64) (*domain.DomainInfo, error) {
 //    var res map[string]interface{}
 //    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, domainName, id}}
-//    if err := self.Rpc.Call("domain.zone.set", params, &res); err != nil {
+//    if err := self.zone.set", params, &res); err != nil {
 //        return nil, err
 //    }
 //    return domain.ToDomainInfo(res), nil

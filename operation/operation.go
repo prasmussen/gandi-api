@@ -17,7 +17,7 @@ func New(c *client.Client) *Operation {
 func (self *Operation) Count() (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
-    if err := self.Rpc.Call("operation.count", params, &result); err != nil {
+    if err := self.Call("operation.count", params, &result); err != nil {
         return -1, err
     }
     return result, nil
@@ -27,7 +27,7 @@ func (self *Operation) Count() (int64, error) {
 func (self *Operation) Info(id int64) (*OperationInfo, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
-    if err := self.Rpc.Call("operation.info", params, &res); err != nil {
+    if err := self.Call("operation.info", params, &res); err != nil {
         return nil, err
     }
     return ToOperationInfo(res), nil
@@ -37,7 +37,7 @@ func (self *Operation) Info(id int64) (*OperationInfo, error) {
 func (self *Operation) Cancel(id int64) (bool, error) {
     var res bool
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
-    if err := self.Rpc.Call("operation.cancel", params, &res); err != nil {
+    if err := self.Call("operation.cancel", params, &res); err != nil {
         return false, err
     }
     return res, nil
@@ -47,7 +47,7 @@ func (self *Operation) Cancel(id int64) (bool, error) {
 func (self *Operation) List() ([]*OperationInfo, error) {
     var res []interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
-    if err := self.Rpc.Call("operation.list", params, &res); err != nil {
+    if err := self.Call("operation.list", params, &res); err != nil {
         return nil, err
     }
 

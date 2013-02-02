@@ -20,17 +20,21 @@ func (self SystemType) Url() string {
 
 type Client struct {
     Key string
-    Rpc *xmlrpc.Client
+    Url string
 }
 
-func New(apiKey string, system SystemType) (*Client, error) {
-    rpc, err := xmlrpc.NewClient(system.Url(), nil)
-    if err != nil {
-        return nil, err
-    }
-
+func New(apiKey string, system SystemType) *Client {
     return &Client {
         Key: apiKey,
-        Rpc: rpc,
-    }, nil
+        Url: system.Url(),
+    }
+}
+
+func (self *Client) Call(serviceMethod string, args interface{}, reply interface{}) error {
+    rpc, err := xmlrpc.NewClient(self.Url, nil)
+    if err != nil {
+        return err
+    }
+
+    return rpc.Call(serviceMethod, args, reply)
 }

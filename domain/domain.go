@@ -18,7 +18,7 @@ func New(c *client.Client) *Domain {
 func (self *Domain) Available(name string) (string, error) {
     var result map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, []interface{}{name}}}
-    if err := self.Rpc.Call("domain.available", params, &result); err != nil {
+    if err := self.Call("domain.available", params, &result); err != nil {
         return "", err
     }
     return result[name].(string), nil
@@ -28,7 +28,7 @@ func (self *Domain) Available(name string) (string, error) {
 func (self *Domain) Info(name string) (*DomainInfo, error) {
     var res map[string]interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, name}}
-    if err := self.Rpc.Call("domain.info", params, &res); err != nil {
+    if err := self.Call("domain.info", params, &res); err != nil {
         return nil, err
     }
     return ToDomainInfo(res), nil
@@ -38,7 +38,7 @@ func (self *Domain) Info(name string) (*DomainInfo, error) {
 func (self *Domain) List() ([]*DomainInfoBase, error) {
     var res []interface{}
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
-    if err := self.Rpc.Call("domain.list", params, &res); err != nil {
+    if err := self.Call("domain.list", params, &res); err != nil {
         return nil, err
     }
 
@@ -54,7 +54,7 @@ func (self *Domain) List() ([]*DomainInfoBase, error) {
 func (self *Domain) Count() (int64, error) {
     var result int64
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
-    if err := self.Rpc.Call("domain.count", params, &result); err != nil {
+    if err := self.Call("domain.count", params, &result); err != nil {
         return -1, err
     }
     return result, nil
@@ -71,7 +71,7 @@ func (self *Domain) Create(name, contactHandle string, years int64) (*operation.
         "duration": years,
     }
     params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, name, createArgs}}
-    if err := self.Rpc.Call("domain.create", params, &res); err != nil {
+    if err := self.Call("domain.create", params, &res); err != nil {
         return nil, err
     }
     return operation.ToOperationInfo(res), nil
