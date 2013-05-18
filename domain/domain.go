@@ -17,7 +17,7 @@ func New(c *client.Client) *Domain {
 // Check the availability of some domain
 func (self *Domain) Available(name string) (string, error) {
     var result map[string]interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, []interface{}{name}}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, []interface{}{name}}}
     if err := self.Call("domain.available", params, &result); err != nil {
         return "", err
     }
@@ -27,7 +27,7 @@ func (self *Domain) Available(name string) (string, error) {
 // Get domain information
 func (self *Domain) Info(name string) (*DomainInfo, error) {
     var res map[string]interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, name}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, name}}
     if err := self.Call("domain.info", params, &res); err != nil {
         return nil, err
     }
@@ -37,7 +37,7 @@ func (self *Domain) Info(name string) (*DomainInfo, error) {
 // List domains associated to the contact represented by apikey
 func (self *Domain) List() ([]*DomainInfoBase, error) {
     var res []interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key}}
     if err := self.Call("domain.list", params, &res); err != nil {
         return nil, err
     }
@@ -53,7 +53,7 @@ func (self *Domain) List() ([]*DomainInfoBase, error) {
 // Count domains associated to the contact represented by apikey
 func (self *Domain) Count() (int64, error) {
     var result int64
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key}}
     if err := self.Call("domain.count", params, &result); err != nil {
         return -1, err
     }
@@ -70,7 +70,7 @@ func (self *Domain) Create(name, contactHandle string, years int64) (*operation.
         "tech": contactHandle,
         "duration": years,
     }
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, name, createArgs}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, name, createArgs}}
     if err := self.Call("domain.create", params, &res); err != nil {
         return nil, err
     }

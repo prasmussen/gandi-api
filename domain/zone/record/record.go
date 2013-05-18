@@ -16,7 +16,7 @@ func New(c *client.Client) *Record {
 // Count number of records for a given zone/version
 func (self *Record) Count(zoneId, version int64) (int64, error) {
     var result int64
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Call("domain.zone.record.count", params, &result); err != nil {
         return -1, err
     }
@@ -26,7 +26,7 @@ func (self *Record) Count(zoneId, version int64) (int64, error) {
 // List records of a version of a DNS zone
 func (self *Record) List(zoneId, version int64) ([]*RecordInfo, error) {
     var res []interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, zoneId, version}}
     if err := self.Call("domain.zone.record.list", params, &res); err != nil {
         return nil, err
     }
@@ -49,7 +49,7 @@ func (self *Record) Add(args RecordAdd) (*RecordInfo, error) {
         "ttl": args.Ttl,
     }
 
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, args.Zone, args.Version, createArgs}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, args.Zone, args.Version, createArgs}}
     if err := self.Call("domain.zone.record.add", params, &res); err != nil {
         return nil, err
     }
@@ -60,7 +60,7 @@ func (self *Record) Add(args RecordAdd) (*RecordInfo, error) {
 func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
     var res int64
     deleteArgs := xmlrpc.Struct{"id": recordId}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, zoneId, version, deleteArgs}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, zoneId, version, deleteArgs}}
     if err := self.Call("domain.zone.record.delete", params, &res); err != nil {
         return false, err
     }
@@ -70,7 +70,7 @@ func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
 //// Set the current zone of a domain
 //func (self *Record) Set(domainName string, id int64) (*domain.DomainInfo, error) {
 //    var res map[string]interface{}
-//    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, domainName, id}}
+//    params := xmlrpc.Params{Params: []interface{}{self.Key, domainName, id}}
 //    if err := self.zone.set", params, &res); err != nil {
 //        return nil, err
 //    }
