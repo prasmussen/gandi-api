@@ -16,7 +16,7 @@ func New(c *client.Client) *Contact {
 // Get contact financial balance
 func (self *Contact) Balance() (*BalanceInformation, error) {
     var res map[string]interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key}}
     if err := self.Call("contact.balance", params, &res); err != nil {
         return nil, err
     }
@@ -29,9 +29,9 @@ func (self *Contact) Info(handle string) (*ContactInformation, error) {
 
     var params xmlrpc.Params
     if handle == "" {
-        params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+        params = xmlrpc.Params{Params: []interface{}{self.Key}}
     } else {
-        params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, handle}}
+        params = xmlrpc.Params{Params: []interface{}{self.Key, handle}}
     }
     if err := self.Call("contact.info", params, &res); err != nil {
         return nil, err
@@ -55,7 +55,7 @@ func (self *Contact) Create(opts ContactCreate) (*ContactInformation, error) {
         "type": opts.ContactType(),
     }
 
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, createArgs}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, createArgs}}
     if err := self.Call("contact.create", params, &res); err != nil {
         return nil, err
     }
@@ -68,9 +68,9 @@ func (self *Contact) Delete(handle string) (bool, error) {
 
     var params xmlrpc.Params
     if handle == "" {
-        params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+        params = xmlrpc.Params{Params: []interface{}{self.Key}}
     } else {
-        params = xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, handle}}
+        params = xmlrpc.Params{Params: []interface{}{self.Key, handle}}
     }
     if err := self.Call("contact.delete", params, &res); err != nil {
         return false, err
