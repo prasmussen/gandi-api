@@ -16,7 +16,7 @@ func New(c *client.Client) *Operation {
 // Count operations created by this contact
 func (self *Operation) Count() (int64, error) {
     var result int64
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key}}
     if err := self.Call("operation.count", params, &result); err != nil {
         return -1, err
     }
@@ -26,7 +26,7 @@ func (self *Operation) Count() (int64, error) {
 // Get operation information
 func (self *Operation) Info(id int64) (*OperationInfo, error) {
     var res map[string]interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, id}}
     if err := self.Call("operation.info", params, &res); err != nil {
         return nil, err
     }
@@ -36,7 +36,7 @@ func (self *Operation) Info(id int64) (*OperationInfo, error) {
 // Cancel an operation
 func (self *Operation) Cancel(id int64) (bool, error) {
     var res bool
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key, id}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key, id}}
     if err := self.Call("operation.cancel", params, &res); err != nil {
         return false, err
     }
@@ -46,7 +46,7 @@ func (self *Operation) Cancel(id int64) (bool, error) {
 // List operations created by this contact
 func (self *Operation) List() ([]*OperationInfo, error) {
     var res []interface{}
-    params := xmlrpc.Params{xmlrpc.Params: []interface{}{self.Key}}
+    params := xmlrpc.Params{Params: []interface{}{self.Key}}
     if err := self.Call("operation.list", params, &res); err != nil {
         return nil, err
     }
