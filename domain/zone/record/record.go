@@ -64,6 +64,32 @@ func (self *Record) Delete(zoneId, version, recordId int64) (bool, error) {
 	return (res == 1), nil
 }
 
+// Update a record from zone/version
+func (self *Record) Update(args RecordUpdate) ([]*RecordInfo, error) {
+	var res []interface{}
+	updateArgs := map[string]interface{}{
+		"name":  args.Name,
+		"type":  args.Type,
+		"value": args.Value,
+		"ttl":   args.Ttl,
+	}
+	updateOpts := map[string]int64{
+		"id": args.Id,
+	}
+
+	params := []interface{}{self.Key, args.Zone, args.Version, updateOpts, updateArgs}
+	if err := self.Call("domain.zone.record.update", params, &res); err != nil {
+		return nil, err
+	}
+
+	records := make([]*RecordInfo, 0)
+	for _, r := range res {
+		record := ToRecordInfo(r.(map[string]interface{}))
+		records = append(records, record)
+	}
+	return records, nil
+}
+
 //// Set the current zone of a domain
 //func (self *Record) Set(domainName string, id int64) (*domain.DomainInfo, error) {
 //    var res map[string]interface{}
