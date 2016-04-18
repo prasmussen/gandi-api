@@ -90,6 +90,23 @@ func (self *Record) Update(args RecordUpdate) ([]*RecordInfo, error) {
 	return records, nil
 }
 
+// SetRecords replaces the entire zone with new records.
+func (self *Record) SetRecords(zone_id, version_id int64, args []RecordSet) ([]*RecordInfo, error) {
+	var res []interface{}
+
+	params := []interface{}{self.Key, zone_id, version_id, args}
+	if err := self.Call("domain.zone.record.set", params, &res); err != nil {
+		return nil, err
+	}
+
+	records := make([]*RecordInfo, 0)
+	for _, r := range res {
+		record := ToRecordInfo(r.(map[string]interface{}))
+		records = append(records, record)
+	}
+	return records, nil
+}
+
 //// Set the current zone of a domain
 //func (self *Record) Set(domainName string, id int64) (*domain.DomainInfo, error) {
 //    var res map[string]interface{}

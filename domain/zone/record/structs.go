@@ -26,3 +26,5 @@ type RecordUpdate struct {
 	Ttl     int64  `goptions:"-T, --ttl, description='Time to live, in seconds, between 5 minutes and 30 days'"`
 	Id      int64  `goptions:"-r, --record, obligatory, description='Record id'"`
 }
+
+type RecordSet map[string]interface{}
