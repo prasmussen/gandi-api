@@ -1,9 +1,8 @@
 package zone
 
 import (
-	"fmt"
 	"github.com/prasmussen/gandi-api/client"
-	"github.com/prasmussen/gandi-api/domain"
+	"github.com/prasmussen/gandi-api/operation"
 )
 
 type Nameservers struct {
@@ -15,12 +14,11 @@ func New(c *client.Client) *Nameservers {
 }
 
 // Set the current zone of a domain
-func (self *Nameservers) Set(domainName string, nameservers []string) (*domain.DomainInfo, error) {
+func (self *Nameservers) Set(domainName string, nameservers []string) (*operation.OperationInfo, error) {
 	var res map[string]interface{}
-	fmt.Println(nameservers)
 	params := []interface{}{self.Key, domainName, nameservers}
 	if err := self.Call("domain.nameservers.set", params, &res); err != nil {
 		return nil, err
 	}
-	return domain.ToDomainInfo(res), nil
+	return operation.ToOperationInfo(res), nil
 }
