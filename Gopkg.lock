@@ -2,14 +2,38 @@
 
 
 [[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/kolo/xmlrpc"
   packages = ["."]
   revision = "0826b98aaa29c0766956cb40d45cf7482a597671"
 
+[[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/stretchr/objx"
+  packages = ["."]
+  revision = "1a9d0bb9f541897e62256577b352fdbc1fb4fd94"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = [".","assert","http","mock"]
+  revision = "69483b4bd14f5845b5a1e55bca19e954e827f1d0"
+  version = "v1.1.4"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8254d27a3812b7a4152e7fd42d3a1ea6ba9c602546ab35eb3006e54c24deb8d1"
+  inputs-digest = "7262132857ea06d8fe2bd1c9ffb6ff18c49589a1b1aca0614c028bc0722b7e96"
   solver-name = "gps-cdcl"
   solver-version = 1
