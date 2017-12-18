@@ -99,7 +99,14 @@ func (self *Client) Get(Uri string, decoded interface{}) (*http.Response, error)
 	if err != nil {
 		return nil, err
 	}
-	return self.DoRest(req, decoded)
+	resp, err := self.DoRest(req, decoded)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Unexpected http code %d on URL %v. expecting %d", resp.StatusCode, resp.Request.URL, http.StatusOK)
+	}
+	return resp, err
 }
 
 func (self *Client) Delete(Uri string, decoded interface{}) (*http.Response, error) {
@@ -122,7 +129,14 @@ func (self *Client) Post(Uri string, data interface{}, decoded interface{}) (*ht
 	if err != nil {
 		return nil, err
 	}
-	return self.DoRest(req, decoded)
+	resp, err := self.DoRest(req, decoded)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != http.StatusCreated {
+		return nil, fmt.Errorf("Unexpected http code %d on URL %v. expecting %d", resp.StatusCode, resp.Request.URL, http.StatusCreated)
+	}
+	return resp, err
 }
 
 func (self *Client) Put(Uri string, data interface{}, decoded interface{}) (*http.Response, error) {
