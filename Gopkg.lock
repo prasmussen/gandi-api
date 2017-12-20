@@ -8,16 +8,16 @@
   version = "v1.1.0"
 
 [[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "064e2069ce9c359c118179501254f67d7d37ba24"
+  version = "0.2"
+
+[[projects]]
   branch = "master"
   name = "github.com/kolo/xmlrpc"
   packages = ["."]
   revision = "0826b98aaa29c0766956cb40d45cf7482a597671"
-
-[[projects]]
-  name = "github.com/pkg/errors"
-  packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -34,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "241df471b51828b7048c878acfcbea66362eeb03e19a6257c1b0890bdf1bda36"
+  inputs-digest = "a94353bb3ede3fb7b1f2c11b16d7aeb2ace6148f128e03035eca1ac3bc8f4e56"
   solver-name = "gps-cdcl"
   solver-version = 1
