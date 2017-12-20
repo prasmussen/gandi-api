@@ -83,6 +83,6 @@ func (z *Zone) Set(domainName string, zoneInfo ZoneInfo) (status *Status, err er
 }
 
 // Records gets a record client for the current zone
-func (z *Zone) Records(zoneInfo ZoneInfo) *record.Record {
+func (z *Zone) Records(zoneInfo ZoneInfo) record.Manager {
 	return record.New(z.Client, fmt.Sprintf("/zones/%s", zoneInfo.UUID))
 }

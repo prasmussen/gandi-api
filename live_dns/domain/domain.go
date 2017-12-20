@@ -30,6 +30,6 @@ func (d *Domain) Info(name string) (infos *DomainInfo, err error) {
 }
 
 // Records gets a record client for the current domain
-func (d *Domain) Records(name string) *record.Record {
+func (d *Domain) Records(name string) record.Manager {
 	return record.New(d.Client, fmt.Sprintf("/domains/%s", name))
 }

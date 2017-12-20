@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/prasmussen/gandi-api/client"
+	"github.com/prasmussen/gandi-api/live_dns/record"
 	"github.com/prasmussen/gandi-api/live_dns/test_helpers"
 	"github.com/stretchr/testify/assert"
 )
@@ -100,6 +101,6 @@ func TestInfo(t *testing.T) {
 
 func TestRecords(t *testing.T) {
 	d := New(&client.Client{})
-	records := d.Records("example.com")
+	records := d.Records("example.com").(*record.Record)
 	assert.Equal(t, "/domains/example.com", records.Prefix)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/prasmussen/gandi-api/client"
 	"github.com/prasmussen/gandi-api/live_dns/domain"
+	"github.com/prasmussen/gandi-api/live_dns/record"
 	"github.com/prasmussen/gandi-api/live_dns/test_helpers"
 	"github.com/stretchr/testify/assert"
 )
@@ -258,7 +259,7 @@ func TestRecords(t *testing.T) {
 		UUID: &id,
 	}
 	z := New(&client.Client{})
-	records := z.Records(zoneInfo)
+	records := z.Records(zoneInfo).(*record.Record)
 	assert.Equal(t, "/zones/12bb7678-e43e-11e7-80c1-00163e6dc886", records.Prefix)
 }
 

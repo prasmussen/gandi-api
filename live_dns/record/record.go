@@ -13,6 +13,62 @@ type Record struct {
 	Prefix string
 }
 
+// Creator is an interface to create new record entries
+type Creator interface {
+	// Create creates a new record entry
+	// possible calls are:
+	// Create(recordInfo)
+	// Create(recordInfo, "entry")
+	// Create(recordInfo, "entry", "type")
+	// where "entry" matches entry.example.com
+	// and "type" is the record type (A, CNAME, ...)
+	Create(recordInfo RecordInfo, args ...string) (status *Status, err error)
+}
+
+// Updater is an interface to update existing record entries
+type Updater interface {
+	// Update creates a new record entry
+	// possible calls are:
+	// Update(recordInfo)
+	// Update(recordInfo, "entry")
+	// Update(recordInfo, "entry", "type")
+	// where "entry" matches entry.example.com
+	// and "type" is the record type (A, CNAME, ...)
+	Update(recordInfo RecordInfo, args ...string) (status *Status, err error)
+}
+
+// Lister is an interface to list existing record entries
+type Lister interface {
+	// List creates a new record entry
+	// possible calls are:
+	// List(recordInfo)
+	// List(recordInfo, "entry")
+	// List(recordInfo, "entry", "type")
+	// where "entry" matches entry.example.com
+	// and "type" is the record type (A, CNAME, ...)
+	List(args ...string) (list []*RecordInfo, err error)
+}
+
+// Deleter is an interface to delete existing record entries
+type Deleter interface {
+	// Delete creates a new record entry
+	// possible calls are:
+	// Delete(recordInfo)
+	// Delete(recordInfo, "entry")
+	// Delete(recordInfo, "entry", "type")
+	// where "entry" matches entry.example.com
+	// and "type" is the record type (A, CNAME, ...)
+	Delete(args ...string) (err error)
+}
+
+// Manager is an interface to manage records (for a zone or domain)
+type Manager interface {
+	Creator
+	Updater
+	Lister
+	Deleter
+}
+
 // New instanciates a new instance of a Zone client
 func New(c *client.Client, prefix string) *Record {
 	return &Record{c, prefix}
@@ -44,6 +100,13 @@ func (r *Record) formatCallError(function string, args ...string) error {
 	return fmt.Errorf(format, a...)
 }
 
+// Create creates a new record entry
+// possible calls are:
+// Create(recordInfo)
+// Create(recordInfo, "entry")
+// Create(recordInfo, "entry", "type")
+// where "entry" matches entry.example.com
+// and "type" is the record type (A, CNAME, ...)
 func (r *Record) Create(recordInfo RecordInfo, args ...string) (status *Status, err error) {
 	switch len(args) {
 	case 0:
@@ -58,6 +121,13 @@ func (r *Record) Create(recordInfo RecordInfo, args ...string) (status *Status, 
 	return
 }
 
+// Update creates a new record entry
+// possible calls are:
+// Update(recordInfo)
+// Update(recordInfo, "entry")
+// Update(recordInfo, "entry", "type")
+// where "entry" matches entry.example.com
+// and "type" is the record type (A, CNAME, ...)
 func (r *Record) Update(recordInfo RecordInfo, args ...string) (status *Status, err error) {
 	switch len(args) {
 	case 0:
@@ -72,6 +142,13 @@ func (r *Record) Update(recordInfo RecordInfo, args ...string) (status *Status, 
 	return
 }
 
+// List creates a new record entry
+// possible calls are:
+// List(recordInfo)
+// List(recordInfo, "entry")
+// List(recordInfo, "entry", "type")
+// where "entry" matches entry.example.com
+// and "type" is the record type (A, CNAME, ...)
 func (r *Record) List(args ...string) (list []*RecordInfo, err error) {
 	switch len(args) {
 	case 0:
@@ -86,7 +163,13 @@ func (r *Record) List(args ...string) (list []*RecordInfo, err error) {
 	return
 }
 
-// Delete deletes records matching the
+// Delete creates a new record entry
+// possible calls are:
+// Delete(recordInfo)
+// Delete(recordInfo, "entry")
+// Delete(recordInfo, "entry", "type")
+// where "entry" matches entry.example.com
+// and "type" is the record type (A, CNAME, ...)
 func (r *Record) Delete(args ...string) (err error) {
 	switch len(args) {
 	case 0:
