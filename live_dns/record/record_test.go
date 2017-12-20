@@ -18,19 +18,19 @@ func RunTest(t testing.TB, method, uri, requestBody, responseBody string, code i
 func TestTooManyArgs(t *testing.T) {
 	r := New(&client.Client{}, "")
 	t.Run("Test Create", func(t *testing.T) {
-		infos, err := r.Create(RecordInfo{}, "arg1", "arg2", "arg3")
+		ret, err := r.Create(RecordInfo{}, "arg1", "arg2", "arg3")
 		assert.Error(t, err)
-		assert.Nil(t, infos)
+		assert.Nil(t, ret)
 	})
 	t.Run("Test Update", func(t *testing.T) {
-		res, err := r.Update(RecordInfo{}, "arg1", "arg2", "arg3")
+		ret, err := r.Update(RecordInfo{}, "arg1", "arg2", "arg3")
 		assert.Error(t, err)
-		assert.Nil(t, res)
+		assert.Nil(t, ret)
 	})
 	t.Run("Test List", func(t *testing.T) {
-		res, err := r.List("arg1", "arg2", "arg3")
+		ret, err := r.List("arg1", "arg2", "arg3")
 		assert.Error(t, err)
-		assert.Nil(t, res)
+		assert.Nil(t, ret)
 	})
 	t.Run("Test Delete", func(t *testing.T) {
 		err := r.Delete("arg1", "arg2", "arg3")

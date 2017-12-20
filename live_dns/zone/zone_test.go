@@ -7,7 +7,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/prasmussen/gandi-api/client"
 	"github.com/prasmussen/gandi-api/live_dns/domain"
-	"github.com/prasmussen/gandi-api/live_dns/record"
 	"github.com/prasmussen/gandi-api/live_dns/test_helpers"
 	"github.com/stretchr/testify/assert"
 )
@@ -48,11 +47,6 @@ func TestNoID(t *testing.T) {
 	})
 	t.Run("Test Set domain", func(t *testing.T) {
 		infos, err := z.Set("example.com", zoneInfo)
-		assert.Error(t, err)
-		assert.Nil(t, infos)
-	})
-	t.Run("Test Records", func(t *testing.T) {
-		infos, err := z.Records(zoneInfo)
 		assert.Error(t, err)
 		assert.Nil(t, infos)
 	})
@@ -257,63 +251,15 @@ func TestDomains(t *testing.T) {
 }
 
 func TestRecords(t *testing.T) {
-	RunTest(t,
-		"GET", "/api/v5/zones/12bb7678-e43e-11e7-80c1-00163e6dc886/records",
-		``,
-		`[
-			{
-			  "rrset_type": "MX",
-			  "rrset_ttl": 10800,
-			  "rrset_name": "@",
-			  "rrset_href": "https://dns.api.gandi.net/api/v5/zones/12bb7678-e43e-11e7-80c1-00163e6dc886/records/%40/MX",
-			  "rrset_values": [
-				"10 spool.mail.gandi.net.",
-				"50 fb.mail.gandi.net."
-			  ]
-			},
-			{
-			  "rrset_type": "CNAME",
-			  "rrset_ttl": 10800,
-			  "rrset_name": "example",
-			  "rrset_href": "https://dns.api.gandi.net/api/v5/zones/12bb7678-e43e-11e7-80c1-00163e6dc886/records/example/CNAME",
-			  "rrset_values": [
-				"example.com."
-			  ]
-			}
-		  ]`,
-		http.StatusOK,
-		func(t testing.TB, z *Zone) {
-			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
-			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
-				Name: "example.com",
-				UUID: &id,
-			}
-			records, err := z.Records(zoneInfo)
-			assert.NoError(t, err)
-			assert.Equal(t, []*record.RecordInfo{
-				&record.RecordInfo{
-					Type: record.MX,
-					Ttl:  10800,
-					Name: "@",
-					Href: "https://dns.api.gandi.net/api/v5/zones/12bb7678-e43e-11e7-80c1-00163e6dc886/records/%40/MX",
-					Values: []string{
-						"10 spool.mail.gandi.net.",
-						"50 fb.mail.gandi.net.",
-					},
-				},
-				&record.RecordInfo{
-					Type: record.CNAME,
-					Ttl:  10800,
-					Name: "example",
-					Href: "https://dns.api.gandi.net/api/v5/zones/12bb7678-e43e-11e7-80c1-00163e6dc886/records/example/CNAME",
-					Values: []string{
-						"example.com.",
-					},
-				},
-			}, records)
-		},
-	)
+	id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
+	assert.NoError(t, err)
+	zoneInfo := ZoneInfo{
+		Name: "example.com",
+		UUID: &id,
+	}
+	z := New(&client.Client{})
+	records := z.Records(zoneInfo)
+	assert.Equal(t, "/zones/12bb7678-e43e-11e7-80c1-00163e6dc886", records.Prefix)
 }
 
 func TestSet(t *testing.T) {

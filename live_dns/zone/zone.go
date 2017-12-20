@@ -82,11 +82,7 @@ func (z *Zone) Set(domainName string, zoneInfo ZoneInfo) (status *Status, err er
 	return
 }
 
-// Records returns all records on a zone
-func (z *Zone) Records(zoneInfo ZoneInfo) (records []*record.RecordInfo, err error) {
-	if zoneInfo.UUID == nil {
-		return nil, fmt.Errorf("could fetch record of a zone %s without an id", zoneInfo.Name)
-	}
-	_, err = z.Get(fmt.Sprintf("/zones/%s/records", zoneInfo.UUID), &records)
-	return
+// Records gets a record client for the current zone
+func (z *Zone) Records(zoneInfo ZoneInfo) *record.Record {
+	return record.New(z.Client, fmt.Sprintf("/zones/%s", zoneInfo.UUID))
 }

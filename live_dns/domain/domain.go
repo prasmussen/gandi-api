@@ -29,8 +29,7 @@ func (d *Domain) Info(name string) (infos *DomainInfo, err error) {
 	return
 }
 
-// Records Lists records for a given domain
-func (d *Domain) Records(name string) (records []*record.RecordInfo, err error) {
-	_, err = d.Get(fmt.Sprintf("/domains/%s/records", name), &records)
-	return
+// Records gets a record client for the current domain
+func (d *Domain) Records(name string) *record.Record {
+	return record.New(d.Client, fmt.Sprintf("/domains/%s", name))
 }
