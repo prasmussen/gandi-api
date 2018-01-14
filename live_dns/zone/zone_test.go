@@ -13,12 +13,12 @@ import (
 )
 
 func RunTest(t testing.TB, method, uri, requestBody, responseBody string, code int, call func(t testing.TB, z *Zone)) {
-	test_helpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
+	testHelpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
 		call(t, New(c))
 	})
 }
 func TestNoID(t *testing.T) {
-	zoneInfo := ZoneInfo{
+	zoneInfo := Info{
 		Name: "example.com",
 	}
 	z := New(&client.Client{})
@@ -78,7 +78,7 @@ func TestInfo(t *testing.T) {
 			assert.NoError(t, err)
 			sharingID, err := uuid.Parse("d85976ac-16d8-11e7-bbe1-00163e61ef31")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Retry:           3600,
 				UUID:            &id,
 				ZoneHref:        "https://dns.api.gandi.net/api/v5/zones/f05ac8b8-e447-11e7-8e33-00163ec31f40",
@@ -151,7 +151,7 @@ func TestCreate(t *testing.T) {
 		`{"message": "Zone Created", "uuid": "12bb7678-e43e-11e7-80c1-00163e6dc886"}`,
 		http.StatusCreated,
 		func(t testing.TB, z *Zone) {
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Name: "example.com Zone",
 			}
 			info, err := z.Create(zoneInfo)
@@ -171,7 +171,7 @@ func TestUpdate(t *testing.T) {
 		func(t testing.TB, z *Zone) {
 			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Name: "example.com",
 				UUID: &id,
 			}
@@ -191,7 +191,7 @@ func TestDelete(t *testing.T) {
 		func(t testing.TB, z *Zone) {
 			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Name: "example.com",
 				UUID: &id,
 			}
@@ -210,7 +210,7 @@ func TestDeleteWrongCode(t *testing.T) {
 		func(t testing.TB, z *Zone) {
 			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Name: "example.com",
 				UUID: &id,
 			}
@@ -235,14 +235,14 @@ func TestDomains(t *testing.T) {
 		func(t testing.TB, z *Zone) {
 			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				Name: "example.com",
 				UUID: &id,
 			}
 			domains, err := z.Domains(zoneInfo)
 			assert.NoError(t, err)
 			assert.Equal(t, 1, len(domains))
-			assert.Equal(t, &domain.DomainInfoBase{
+			assert.Equal(t, &domain.InfoBase{
 				Fqdn:              "example.com",
 				DomainRecordsHref: "https://dns.api.gandi.net/api/v5/domains/example.com/records",
 				DomainHref:        "https://dns.api.gandi.net/api/v5/domains/example.com",
@@ -254,7 +254,7 @@ func TestDomains(t *testing.T) {
 func TestRecords(t *testing.T) {
 	id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 	assert.NoError(t, err)
-	zoneInfo := ZoneInfo{
+	zoneInfo := Info{
 		Name: "example.com",
 		UUID: &id,
 	}
@@ -274,7 +274,7 @@ func TestSet(t *testing.T) {
 		func(t testing.TB, z *Zone) {
 			id, err := uuid.Parse("12bb7678-e43e-11e7-80c1-00163e6dc886")
 			assert.NoError(t, err)
-			zoneInfo := ZoneInfo{
+			zoneInfo := Info{
 				UUID: &id,
 			}
 			status, err := z.Set("example.com", zoneInfo)

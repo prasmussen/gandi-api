@@ -10,7 +10,7 @@ import (
 )
 
 func RunTest(t testing.TB, method, uri, requestBody, responseBody string, code int, call func(t testing.TB, r *Record)) {
-	test_helpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
+	testHelpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
 		call(t, New(c, "/zones/f05ac8b8-e447-11e7-8e33-00163ec31f40/"))
 	})
 }
@@ -18,12 +18,12 @@ func RunTest(t testing.TB, method, uri, requestBody, responseBody string, code i
 func TestTooManyArgs(t *testing.T) {
 	r := New(&client.Client{}, "")
 	t.Run("Test Create", func(t *testing.T) {
-		ret, err := r.Create(RecordInfo{}, "arg1", "arg2", "arg3")
+		ret, err := r.Create(Info{}, "arg1", "arg2", "arg3")
 		assert.Error(t, err)
 		assert.Nil(t, ret)
 	})
 	t.Run("Test Update", func(t *testing.T) {
-		ret, err := r.Update(RecordInfo{}, "arg1", "arg2", "arg3")
+		ret, err := r.Update(Info{}, "arg1", "arg2", "arg3")
 		assert.Error(t, err)
 		assert.Nil(t, ret)
 	})
@@ -76,10 +76,10 @@ func TestList(t *testing.T) {
 				func(t testing.TB, r *Record) {
 					recordInfos, err := r.List(test.args...)
 					assert.NoError(t, err)
-					assert.Equal(t, []*RecordInfo{
+					assert.Equal(t, []*Info{
 						{
 							Name:   "www",
-							Ttl:    10800,
+							TTL:    10800,
 							Type:   A,
 							Values: []string{"127.0.0.1"},
 							Href:   "https://dns.api.gandi.net/api/v5/zones/f05ac8b8-e447-11e7-8e33-00163ec31f40/records/www/A",
@@ -153,9 +153,9 @@ func TestCreate(t *testing.T) {
 				}`,
 				http.StatusCreated,
 				func(t testing.TB, z *Record) {
-					recordInfo := RecordInfo{
+					recordInfo := Info{
 						Name:   "www",
-						Ttl:    10800,
+						TTL:    10800,
 						Type:   A,
 						Values: []string{"127.0.0.1"},
 					}
@@ -196,9 +196,9 @@ func TestUpdate(t *testing.T) {
 				}`,
 				http.StatusCreated,
 				func(t testing.TB, z *Record) {
-					recordInfo := RecordInfo{
+					recordInfo := Info{
 						Name:   "www",
-						Ttl:    10800,
+						TTL:    10800,
 						Type:   A,
 						Values: []string{"127.0.0.1"},
 					}

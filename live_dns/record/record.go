@@ -22,7 +22,7 @@ type Creator interface {
 	// Create(recordInfo, "entry", "type")
 	// where "entry" matches entry.example.com
 	// and "type" is the record type (A, CNAME, ...)
-	Create(recordInfo RecordInfo, args ...string) (status *Status, err error)
+	Create(recordInfo Info, args ...string) (status *Status, err error)
 }
 
 // Updater is an interface to update existing record entries
@@ -34,7 +34,7 @@ type Updater interface {
 	// Update(recordInfo, "entry", "type")
 	// where "entry" matches entry.example.com
 	// and "type" is the record type (A, CNAME, ...)
-	Update(recordInfo RecordInfo, args ...string) (status *Status, err error)
+	Update(recordInfo Info, args ...string) (status *Status, err error)
 }
 
 // Lister is an interface to list existing record entries
@@ -46,7 +46,7 @@ type Lister interface {
 	// List(recordInfo, "entry", "type")
 	// where "entry" matches entry.example.com
 	// and "type" is the record type (A, CNAME, ...)
-	List(args ...string) (list []*RecordInfo, err error)
+	List(args ...string) (list []*Info, err error)
 }
 
 // Deleter is an interface to delete existing record entries
@@ -107,7 +107,7 @@ func (r *Record) formatCallError(function string, args ...string) error {
 // Create(recordInfo, "entry", "type")
 // where "entry" matches entry.example.com
 // and "type" is the record type (A, CNAME, ...)
-func (r *Record) Create(recordInfo RecordInfo, args ...string) (status *Status, err error) {
+func (r *Record) Create(recordInfo Info, args ...string) (status *Status, err error) {
 	switch len(args) {
 	case 0:
 		_, err = r.Post(r.uri("/records"), recordInfo, &status)
@@ -128,7 +128,7 @@ func (r *Record) Create(recordInfo RecordInfo, args ...string) (status *Status, 
 // Update(recordInfo, "entry", "type")
 // where "entry" matches entry.example.com
 // and "type" is the record type (A, CNAME, ...)
-func (r *Record) Update(recordInfo RecordInfo, args ...string) (status *Status, err error) {
+func (r *Record) Update(recordInfo Info, args ...string) (status *Status, err error) {
 	switch len(args) {
 	case 0:
 		_, err = r.Put(r.uri("/records"), recordInfo, &status)
@@ -149,7 +149,7 @@ func (r *Record) Update(recordInfo RecordInfo, args ...string) (status *Status, 
 // List(recordInfo, "entry", "type")
 // where "entry" matches entry.example.com
 // and "type" is the record type (A, CNAME, ...)
-func (r *Record) List(args ...string) (list []*RecordInfo, err error) {
+func (r *Record) List(args ...string) (list []*Info, err error) {
 	switch len(args) {
 	case 0:
 		_, err = r.Get(r.uri("/records"), &list)

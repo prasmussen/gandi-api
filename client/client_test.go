@@ -36,7 +36,7 @@ func Test_Get(t *testing.T) {
 				assert.Equal(t, test.method, r.Method)
 				assert.Equal(t, "/something", r.RequestURI)
 				assert.Equal(t, "", r.Header.Get("Content-Type"))
-				assert.Equal(t, "application/json", r.Header.Get("Accept"))
+				assert.Equal(t, "", r.Header.Get("Accept"))
 				assert.Equal(t, "abc", r.Header.Get("X-Api-Key"))
 				b, err := ioutil.ReadAll(r.Body)
 				assert.NoError(t, err)
@@ -109,7 +109,7 @@ func Test_CallWithData(t *testing.T) {
 				assert.Equal(t, test.method, r.Method)
 				assert.Equal(t, "/something", r.RequestURI)
 				assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
-				assert.Equal(t, "application/json", r.Header.Get("Accept"))
+				assert.Equal(t, "", r.Header.Get("Accept"))
 				assert.Equal(t, "abc", r.Header.Get("X-Api-Key"))
 				d := json.NewDecoder(r.Body)
 				values := map[string]interface{}{}

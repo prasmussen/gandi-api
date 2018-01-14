@@ -18,13 +18,13 @@ func New(c *client.Client) *Domain {
 }
 
 // List domains associated to the contact represented by apikey
-func (d *Domain) List() (domains []*DomainInfoBase, err error) {
+func (d *Domain) List() (domains []*InfoBase, err error) {
 	_, err = d.Get("/domains", &domains)
 	return
 }
 
 // Info Gets domain information
-func (d *Domain) Info(name string) (infos *DomainInfo, err error) {
+func (d *Domain) Info(name string) (infos *Info, err error) {
 	_, err = d.Get(fmt.Sprintf("/domains/%s", name), &infos)
 	return
 }

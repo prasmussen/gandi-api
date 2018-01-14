@@ -20,19 +20,19 @@ func New(c *client.Client) *Zone {
 }
 
 // List accessible DNS zones.
-func (z *Zone) List() (zones []*ZoneInfo, err error) {
+func (z *Zone) List() (zones []*Info, err error) {
 	_, err = z.Get("/zones", &zones)
 	return
 }
 
 // InfoByUUID Gets zone information from its UUID
-func (z *Zone) InfoByUUID(uuid uuid.UUID) (info *ZoneInfo, err error) {
+func (z *Zone) InfoByUUID(uuid uuid.UUID) (info *Info, err error) {
 	_, err = z.Get(fmt.Sprintf("/zones/%s", uuid), &info)
 	return
 }
 
 // Info Gets zone information
-func (z *Zone) Info(zoneInfo ZoneInfo) (info *ZoneInfo, err error) {
+func (z *Zone) Info(zoneInfo Info) (info *Info, err error) {
 	if zoneInfo.UUID == nil {
 		return nil, fmt.Errorf("could get zone info %s without an id", zoneInfo.Name)
 	}
@@ -40,13 +40,13 @@ func (z *Zone) Info(zoneInfo ZoneInfo) (info *ZoneInfo, err error) {
 }
 
 // Create creates a new zone
-func (z *Zone) Create(zoneInfo ZoneInfo) (status *CreateStatus, err error) {
+func (z *Zone) Create(zoneInfo Info) (status *CreateStatus, err error) {
 	_, err = z.Post("/zones", zoneInfo, &status)
 	return
 }
 
 // Update updates an existing zone
-func (z *Zone) Update(zoneInfo ZoneInfo) (status *Status, err error) {
+func (z *Zone) Update(zoneInfo Info) (status *Status, err error) {
 	if zoneInfo.UUID == nil {
 		return nil, fmt.Errorf("could not update zone %s without an id", zoneInfo.Name)
 	}
@@ -55,7 +55,7 @@ func (z *Zone) Update(zoneInfo ZoneInfo) (status *Status, err error) {
 }
 
 // Delete Deletes an existing zone
-func (z *Zone) Delete(zoneInfo ZoneInfo) (err error) {
+func (z *Zone) Delete(zoneInfo Info) (err error) {
 	if zoneInfo.UUID == nil {
 		return fmt.Errorf("could not update zone %s without an id", zoneInfo.Name)
 	}
@@ -64,7 +64,7 @@ func (z *Zone) Delete(zoneInfo ZoneInfo) (err error) {
 }
 
 // Domains lists all domains using a zone
-func (z *Zone) Domains(zoneInfo ZoneInfo) (domains []*domain.DomainInfoBase, err error) {
+func (z *Zone) Domains(zoneInfo Info) (domains []*domain.InfoBase, err error) {
 	if zoneInfo.UUID == nil {
 		return nil, fmt.Errorf("could get domains on a zone %s without an id", zoneInfo.Name)
 	}
@@ -74,7 +74,7 @@ func (z *Zone) Domains(zoneInfo ZoneInfo) (domains []*domain.DomainInfoBase, err
 }
 
 // Set the current zone of a domain
-func (z *Zone) Set(domainName string, zoneInfo ZoneInfo) (status *Status, err error) {
+func (z *Zone) Set(domainName string, zoneInfo Info) (status *Status, err error) {
 	if zoneInfo.UUID == nil {
 		return nil, fmt.Errorf("could attach a domain %s to a zone %s without an id", domainName, zoneInfo.Name)
 	}
@@ -83,6 +83,6 @@ func (z *Zone) Set(domainName string, zoneInfo ZoneInfo) (status *Status, err er
 }
 
 // Records gets a record client for the current zone
-func (z *Zone) Records(zoneInfo ZoneInfo) record.Manager {
+func (z *Zone) Records(zoneInfo Info) record.Manager {
 	return record.New(z.Client, fmt.Sprintf("/zones/%s", zoneInfo.UUID))
 }

@@ -12,7 +12,7 @@ import (
 )
 
 func RunTest(t testing.TB, method, uri, requestBody, responseBody string, code int, call func(t testing.TB, d *Domain)) {
-	test_helpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
+	testHelpers.RunTest(t, method, uri, requestBody, responseBody, code, func(t testing.TB, c *client.Client) {
 		call(t, New(c))
 	})
 }
@@ -42,18 +42,18 @@ func TestList(t *testing.T) {
 		func(t testing.TB, d *Domain) {
 			info, err := d.List()
 			assert.NoError(t, err)
-			assert.Equal(t, []*DomainInfoBase{
-				&DomainInfoBase{
+			assert.Equal(t, []*InfoBase{
+				&InfoBase{
 					Fqdn:              "example.com",
 					DomainRecordsHref: "https://dns.api.gandi.net/api/v5/domains/example.com/records",
 					DomainHref:        "https://dns.api.gandi.net/api/v5/domains/example.com",
 				},
-				&DomainInfoBase{
+				&InfoBase{
 					Fqdn:              "example.fr",
 					DomainRecordsHref: "https://dns.api.gandi.net/api/v5/domains/example.fr/records",
 					DomainHref:        "https://dns.api.gandi.net/api/v5/domains/example.fr",
 				},
-				&DomainInfoBase{
+				&InfoBase{
 					Fqdn:              "example.cat",
 					DomainRecordsHref: "https://dns.api.gandi.net/api/v5/domains/example.cat/records",
 					DomainHref:        "https://dns.api.gandi.net/api/v5/domains/example.cat",
@@ -82,13 +82,13 @@ func TestInfo(t *testing.T) {
 			assert.NoError(t, err)
 			id, err := uuid.Parse("f05ac8b8-e447-11e7-8e33-00163ec31f40")
 			assert.NoError(t, err)
-			assert.Equal(t, &DomainInfo{
-				&DomainInfoBase{
+			assert.Equal(t, &Info{
+				&InfoBase{
 					Fqdn:              "example.com",
 					DomainRecordsHref: "https://dns.api.gandi.net/api/v5/domains/example.com/records",
 					DomainHref:        "https://dns.api.gandi.net/api/v5/domains/example.com",
 				},
-				&DomainInfoExtra{
+				&InfoExtra{
 					ZoneUUID:        &id,
 					ZoneHref:        "https://dns.api.gandi.net/api/v5/zones/f05ac8b8-e447-11e7-8e33-00163ec31f40",
 					ZoneRecordsHref: "https://dns.api.gandi.net/api/v5/zones/f05ac8b8-e447-11e7-8e33-00163ec31f40/records",
