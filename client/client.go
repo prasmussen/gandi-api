@@ -71,6 +71,9 @@ func (c *Client) DoRest(req *http.Request, decoded interface{}) (*http.Response,
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode == http.StatusUnauthorized {
+		return nil, fmt.Errorf("the server returned unauthorized code. Your API key might be invalid or have expired")
+	}
 	//
 	defer func() { err = resp.Body.Close() }()
 	if decoded != nil {

@@ -15,6 +15,59 @@ type testSerialized struct {
 	Other int `json:"other-value"`
 }
 
+func TestNotAuthorized(t *testing.T) {
+
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		_, err := ioutil.ReadAll(r.Body)
+		assert.NoError(t, err)
+		assert.Equal(t, "not-authorized", r.Header.Get("X-Api-Key"))
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{
+			"code": 401,
+			"message": "The server could not verify that you authorized to access the document you requested. Either you supplied the wrong credentials (e.g., bad api key), or your access token has expired",
+			"object": "HTTPUnauthorized",
+			"cause": "Unauthorized"
+		  }`))
+	}
+
+	c := Client{
+		Key: "not-authorized",
+	}
+	s := httptest.NewServer(http.HandlerFunc(handler))
+	defer s.Close()
+	c.Url = s.URL + "/"
+
+	for _, test := range []struct {
+		method  string
+		handler func(string, interface{}) (*http.Response, error)
+	}{
+		{"GET", c.Get},
+		{"DELETE", c.Delete},
+	} {
+		t.Run(test.method, func(t *testing.T) {
+			resp, err := test.handler("/something", nil)
+			assert.Error(t, err)
+			assert.Nil(t, resp)
+		})
+	}
+
+	for _, test := range []struct {
+		method  string
+		code    int
+		handler func(string, interface{}, interface{}) (*http.Response, error)
+	}{
+		{"POST", http.StatusCreated, c.Post},
+		{"PATCH", http.StatusAccepted, c.Patch},
+		{"PUT", http.StatusOK, c.Put},
+	} {
+		t.Run(test.method, func(t *testing.T) {
+			resp, err := test.handler("/something", nil, nil)
+			assert.Error(t, err)
+			assert.Nil(t, resp)
+		})
+	}
+}
+
 func Test_Get(t *testing.T) {
 
 	c := Client{
