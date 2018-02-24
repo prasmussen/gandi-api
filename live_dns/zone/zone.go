@@ -91,7 +91,6 @@ func (z *Zone) Set(domainName string, zoneInfo Info) (status *Status, err error)
 		fmt.Printf("DEBUG: Set WILL SET SharingID=%v domain=%s dn=%v\n", zoneInfo.SharingID, domainName, zoneInfo.Name)
 	}
 	_, err = z.Post(fmt.Sprintf("/zones/%s/domains/%s", zoneInfo.UUID, domainName), nil, &status)
-	//_, err = z.Post(fmt.Sprintf("/zones?sharing_id=%s/%s/domains/%s", "FIND THE CODE", zoneInfo.UUID, domainName), nil, &status)
 	return
 }
 
